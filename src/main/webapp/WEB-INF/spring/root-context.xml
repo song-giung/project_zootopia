@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+		<!-- 추가 -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="scott" />
+		<property name="password" value="tiger" />
+	</bean>
+
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSession">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:util/SqlMapConfig.xml" />
+		<property name="mapperLocations" value="classpath*:sql/*.xml" />
+	</bean>
+
+	<!-- SqlSessionTemplate은 필요한 시점에 세션을 닫고 커밋하거나 롤백하는것을 포함한 세션의 생명주기를 관리합니다. -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSessionTemplate">
+		<constructor-arg ref="sqlSession" index="0" />
+	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- name = "maxUploadSize"를 지정하지 않으면 기본으로 "-1"이 설정되는데 파일 크기가 무제한이라는 의미 -->
+	</bean>
+		
+		<!-- 추가 END -->
+</beans>

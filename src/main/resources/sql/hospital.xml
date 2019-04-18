@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hospital">
+
+	<!-- 진료기록부 게시판 입력 -->
+	<insert id="hospital_insert" parameterType="hospitalbean">
+		insert into hospital_board
+		(hospital_board_num, master_name, master_tel, pet_name, pet_speices,
+		hospital_board_date, hospital_name, hospital_tel, hospital_address, 
+		hospital_subject, hospital_content) values
+		(hospital_board_num_seq.nextval, #{master_name}, #{master_tel}, #{pet_name}, #{pet_speices},
+		SYSDATE, #{hospital_name}, #{hospital_tel}, #{hospital_address},
+		#{hospital_subject}, #{hospital_content})
+	</insert> 
+	
+	<!-- 진료기록부 검색 결과 총 게시물 수 -->
+	<select id="hospital_count" resultType="int">
+		select count(*) from hospital_board
+	</select>
+	
+	<select id="hospital_list" parameterType="map" resultType="hospitalbean">
+	
+   
+     <![CDATA[
+      select *
+      from
+         (select rownum rnum, hospital_board_num, master_name, master_tel, pet_name, pet_speices,
+		hospital_board_date, hospital_name, hospital_tel, hospital_address, 
+		hospital_subject, hospital_content
+         from
+            (select rownum rnum,hospital_board_num, master_name, master_tel, pet_name, pet_speices,
+		hospital_board_date, hospital_name, hospital_tel, hospital_address, 
+		hospital_subject, hospital_content
+         from
+            hospital_board order by hospital_board_date desc
+         ))
+      where rnum >= ((#{page}-1)*#{limit}+1) and rnum <= (#{page} * #{limit})
+   ]]>
+	
+	</select>
+	
+	<select id="hospital_cont" resultType="hospitalbean">
+		select * from hospital_board
+		where hospital_board_num=#{hospital_board_num}
+	</select>
+	
+	<update id="hospital_edit" parameterType="hospitalbean">
+		update hospital_board
+		set
+		master_name = #{master_name},
+		master_tel = #{master_tel},
+		pet_name = #{pet_name},
+		pet_speices = #{pet_speices},
+		hospital_name = #{hospital_name},
+		hospital_tel = #{hospital_tel},
+		hospital_address = {hospital_address},
+		hospital_subject = #{hospital_subject},
+		hospital_content = #{hospital_subject},
+		hosptial_board_date = SYSDATE,
+		
+		where hospital_board_num = #{hospital_board_num}
+
+	</update>
+	
+	<delete id="hospital_delete" parameterType="int">
+		delete from hospital_board
+		where hospital_board_num = #{hospital_board_num}
+	</delete>
+	
+	<select id="hospital_cnt" parameterType="java.util.Map" resultType="int">
+		select count(*) from hospital_board
+		
+		<where>
+			<if test="find_field==''"></if>
+			
+			<if test="find_field=='hospital_subject'">
+				hospital_subject like #{find_name} 
+			</if>
+			
+			<if test="find_field=='hospital_content'">
+				hospital_content like #{find_name}
+			</if>
+			
+			<if test="find_field=='hospital_sub_cont'">
+				hospital_content like #{find_name} or hospital_subject like #{find_name}
+			</if>
+		</where>
+	</select>
+	
+	<select id="hospital_find" parameterType="java.util.Map" resultType="hospitalbean">
+		select *
+		from
+			(select rownum rnum, hospital_board_num, master_name, master_tel, pet_name, pet_speices,
+		hospital_board_date, hospital_name, hospital_tel, hospital_address, 
+		hospital_subject, hospital_content
+		from
+			(select rownum rnum, hospital_board_num, master_name, master_tel, pet_name, pet_speices,
+		hospital_board_date, hospital_name, hospital_tel, hospital_address, 
+		hospital_subject, hospital_content from hospital_board
+
+			
+			<where>
+			<if test="find_field==''"></if>
+			
+			<if test="find_field=='hospital_subject'">
+				hospital_subject like #{find_name} 
+			</if>
+			
+			<if test="find_field=='hospital_content'">
+				hospital_content like #{find_name}
+			</if>
+			
+			<if test="find_field=='hospital_sub_cont'">
+				hospital_content like #{find_name} or hospital_subject like #{find_name}
+			</if>
+		</where>
+			order by hospital_board_date desc
+			)
+		)
+		
+		 <![CDATA[	where rnum >= ((#{page}-1)*10+1) and rnum <= (#{page} * 10)]]>
+	</select>
+
+
+</mapper>

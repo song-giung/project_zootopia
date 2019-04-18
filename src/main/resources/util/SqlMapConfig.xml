@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+       <setting name="jdbcTypeForNull" value="NULL"/>    
+    </settings>
+    
+	<typeAliases>
+		<!-- 송기웅(게시판) -->
+		<typeAlias alias="board"
+			type="com.naver.zootopia.model.BoardBean"/>
+		<typeAlias alias="boardreply"
+			type="com.naver.zootopia.model.BoardReplyBean"/>
+		<typeAlias alias="report"
+			type="com.naver.zootopia.model.ReportBean"/>
+		<typeAlias alias="tag"
+			type="com.naver.zootopia.model.TagBean"/>
+		<typeAlias alias="up"
+			type="com.naver.zootopia.model.UpBean"/>	
+		<typeAlias alias="image"
+			type="com.naver.zootopia.model.ImageBean"/>
+		<!-- 곽승민(회원) -->
+		<typeAlias type="com.naver.zootopia.model.MemberBean" alias="member"/>
+		<typeAlias type="com.naver.zootopia.model.ZipcodeBean2" alias="Zipcode"/>
+		<!-- 홍주성(펫시터 -->
+		<typeAlias type="com.naver.zootopia.model.petcBean" alias="petcbean"/>
+		<typeAlias type="com.naver.zootopia.model.peteBean" alias="petebean"/>
+		<typeAlias type="com.naver.zootopia.model.peteReservation" alias="peReser"/>
+		<typeAlias type="com.naver.zootopia.model.petepilogue" alias="petepil"/>
+		<typeAlias type="com.naver.zootopia.model.peteEpil" alias="peteEpil"/>
+		<!-- 조경보(지도) -->
+		<typeAlias type="com.naver.zootopia.model.EvaluationBean" alias="eval"/>
+		<typeAlias type="com.naver.zootopia.model.MarkerBean" alias="marker"/>	
+		<typeAlias type="com.naver.zootopia.model.QnABean" alias="qna"/>
+		<!-- 현영 -->
+		<typeAlias type="com.naver.zootopia.model.HospitalBean" alias="hospitalbean"/>
+	</typeAliases>
+
+
+</configuration>

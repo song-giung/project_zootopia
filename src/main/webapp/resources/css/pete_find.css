@@ -1,0 +1,58 @@
+@font-face{font-family:"dohyeon"; src:url('./fonts/BMDOHYEON_ttf.ttf')}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+    padding: 5px;
+    }
+.table{
+    width: 65%;
+    margin: 0 auto;
+    margin-bottom: 1%;
+}
+.score {
+    width: 45%;
+    height: 100%;
+    background-color: #cabbac;
+    border-radius: 58%;	
+    font-size:1em;
+    color:white;
+    margin:0 auto;
+    line-height: 1.8;
+}
+.img-fluid {
+	max-width:100%;
+	width:auto;
+	}
+.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+	height:13em;	
+	width:100%;
+}
+.pete_subject {
+	max-width:20em;
+	width:20em;
+}
+
+.petefind{
+	text-align:center; 	
+	}
+	
+.find_field {
+	width: 100px;
+    height: 33px;
+   }
+.btn-default{
+    background-color: #26A69A;
+    color: white;
+}
+.head_title {
+	text-align:center;
+    font-size: 30px;
+    color:#32d8c8;
+    width: 400px;
+    margin:0 auto;
+    
+}
+.head_title2{
+    padding-left: 38%;
+}
+
+

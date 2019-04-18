@@ -1,0 +1,119 @@
+/*����Ʈ ��Ŀ */
+.calendar-legend {
+	width:100%;
+	color: #929491;
+	font-size: 1em;
+	line-height: 1em;
+	font-weight: 300;
+	letter-spacing: -0.5px;
+	text-align: center;
+	margin-top:1em;
+}
+.calendar-legend .circle {
+	width: 12px;
+	height: 12px;
+	margin: 0 3px -2px 0;
+}
+.calendar-legend .unavailables {
+	background-color: #edeaea;
+}
+.calendar-legend .availables {
+	background-color: #575656;
+}
+.circle {
+	display: inline-block;
+	border-radius: 50%;
+	color: #fff;
+	font-weight: 400;
+}
+.stay {
+	background-color: #62C15B;
+}
+
+/* 1�� ���� */
+.Highlighted a{
+   background-color : #62C15B !important;
+   background-image :none !important;
+   color: White !important;
+   font-weight:bold !important;
+   font-size: 16px;
+   border-radius:40%;
+}
+/* ���డ�� */
+.Highlight a{
+	background-color : #5A5A5A !important;
+	background-image :none !important;
+	color: White !important;
+	font-weight:bold !important;
+	font-size: 16px;
+	border-radius:40%;
+}
+/* ��¥ ��� ���� */
+.ui-datepicker td span, .ui-datepicker td a{
+	text-align : center !important;
+}
+
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year {
+	width:40% !important;
+}
+
+.col-sm-4 > ul {
+   list-style:none;
+   padding: 0.1em;
+   margin:0px;
+}
+.col-sm-6 > ul {
+	list-style:none;
+	padding: 0.3em;
+	margin:0px;
+}
+.col-sm-4 {
+	margin-right:20px;
+	margin-bottom: 20px;
+	border: 1px solid #cccccc;
+	height:25%;
+}
+.col-sm-4.calen {
+	height:40%;
+	max-width:100%;
+}
+.col-sm-6 {
+	margin-bottom: 20px;
+	border: 1px solid #cccccc;
+	height:25%;	
+}
+.col-sm-6.epil {
+	height:45%;
+}
+.header_div {
+	width:79%;
+	height:14%;
+	border-bottom:0.1em solid #d6d5d5;
+    font-size: 1.4em;	
+}
+	
+hr{
+	margin-top:5;
+	margin-bottom:5;
+	border:solid 0.1em #d6d5d5;
+}
+.score {
+    width: 30%;
+    height: 18%;
+    background-color: #cabbac;
+    border-radius: 58%;	
+    font-size:1em;
+    color:white;
+    margin:0;
+    text-align:center;
+    line-height:1.4;
+}
+.btn-default {
+    background-color: #26A69A;
+    color: white;
+    float:right;
+}
+.row, .header_div {
+	margin-left:8%;
+}

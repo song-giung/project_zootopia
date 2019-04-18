@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pete">
+	<!-- 글작성 -->
+	<insert id="pete_insert" parameterType="petebean">
+		insert into pete_entrust
+		(pete_id, pete_board_num, pete_subject, pete_content, pete_house_photo,
+		pete_location, pete_space, pete_animals_kind, pete_walk, pete_family,
+		pete_house_original, pete_pass,
+		pete_time_in,pete_time_out,pete_time_out2,pete_time_in2)
+		values
+		(#{pete_id},pete_num_seq.nextval,#{pete_subject},#{pete_content},#{pete_house_photo},
+		#{pete_location}, #{pete_space}, #{pete_animals_kind}, #{pete_walk}, #{pete_family},
+		#{pete_house_original}, #{pete_pass}, #{pete_time_in},
+		#{pete_time_out}, #{pete_time_out2}, #{pete_time_in2})
+	</insert>
+	
+	<!-- 글갯수 -->
+	<select id="pete_count" resultType="int">
+		select count(pete_board_num) from pete_entrust 
+	</select>
+	
+	<!-- 글목록 -->
+	<select id="pete_list" parameterType="map" resultType="petebean">
+	 <![CDATA[
+		select * from (select rownum rnum, pete_id, pete_board_num, pete_subject, pete_content,
+		pete_house_photo, pete_location,pete_space,pete_animals_kind,
+		pete_walk,pete_family,pete_house_original, pete_pass,
+		pete_time_in,pete_time_out,pete_time_out2,pete_time_in2 from
+			(select * from pete_entrust
+				order by pete_board_num desc
+			))
+			where rnum >= ((#{page}-1) * #{limit} + 1 ) and rnum <= (#{page} * #{limit})
+	 ]]>
+	</select>	
+	
+	<!-- 검색 글 갯수 -->
+	<select id="petefind_cnt" parameterType="java.util.Map" resultType="int">
+      select count(*) from pete_entrust
+      <!-- MyBatis 동적 SQL문 <where>태그는 where절을 반환합니다. <where>안의 하위 태그를 실행하고 반환값이 
+         	있으면 where절을 만들어 반환하고 반환값이 없으면 where절을 반환하지 않습니다. -->
+      <where>
+         <!-- 검색 조건이 없는 경우 -->
+         <if test="find_field==''"></if>
+         <!-- 검색 조건이 아이디인 경우 -->
+         <if test="find_field=='id_search'">
+            pete_id like #{find_name}
+         </if>
+         
+         <!-- 검색 조건이 지역인 경우 -->
+         <if test="find_field=='location_search'">
+            pete_location like #{find_name}
+         </if>
+         
+         <!-- 검색 조건이 내용인 경우 -->
+         <if test="find_field=='content_search'">
+            pete_content like #{find_name}
+         </if>        
+      </where>
+   </select>
+	
+	<select id="find_list" parameterType="java.util.Map" resultType="petebean">
+
+      select * from (select rownum rnum, pete_id, pete_board_num, pete_subject, pete_content,
+		pete_house_photo, pete_location,pete_space,pete_animals_kind,
+		pete_walk,pete_family,pete_house_original, pete_pass,
+		pete_time_in,pete_time_out,pete_time_out2,pete_time_in2 from
+                  (select * from pete_entrust 
+      <where>
+         <!-- 검색 조건이 없는 경우 -->
+         <if test="find_field==''"></if>
+         
+         <!-- 검색 조건이 아이디인 경우 -->
+         <if test="find_field=='id_search'">
+            pete_id like #{find_name}
+         </if>
+         
+         <!-- 검색 조건이 지역인 경우 -->
+         <if test="find_field=='location_search'">
+            pete_location like #{find_name}
+         </if>
+         
+         <!-- 검색 조건이 내용인 경우 -->
+         <if test="find_field=='content_search'">
+            pete_content like #{find_name}
+         </if>         
+      </where>
+       )
+   <![CDATA[
+       )
+       where rnum >= ((#{page}-1) * #{limit} + 1 ) and rnum <= (#{page} * #{limit})
+      ]]>
+   </select>
+   
+   <!-- 글 디테일 -->
+   <select id="pete_cont" resultType="petebean" parameterType="int">
+   		select * from pete_entrust where pete_board_num = #{pete_board_num}
+   </select>
+   
+   <!-- 글 수정 -->
+   <update id="pete_edit" parameterType="petebean">
+   		update pete_entrust set
+   			pete_subject = #{pete_subject},
+   			pete_content = #{pete_content},
+   			pete_location = #{pete_location},
+   			pete_space = #{pete_space},
+   			pete_animals_kind = #{pete_animals_kind},
+   			pete_walk = #{pete_walk},
+   			pete_family = #{pete_family},   			  
+   			pete_house_photo = #{pete_house_photo},
+   			pete_house_original = #{pete_house_original},
+   			pete_time_in = #{pete_time_in},
+   			pete_time_out = #{pete_time_out},
+   			pete_time_out2 = #{pete_time_out2},
+   			pete_time_in2 = #{pete_time_in2}
+   			where pete_board_num = #{pete_board_num} 
+   </update>
+   
+   <!-- 글삭제 -->
+   <delete id="pete_del" parameterType="petebean">
+   		delete from pete_entrust where pete_board_num = #{pete_board_num}
+   </delete>
+   
+   <!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 집에 맡기기 예약하기 부분ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+   <insert id="pete_reser" parameterType="peReser">
+   		insert into pete_reservation
+   		(pete_id, join_id, pete_kind, pete_board_num, pete_kind_many, pete_date,
+   		pete_price, pete_date2)
+   		values
+   		(#{pete_id}, #{join_id}, #{pete_kind}, #{pete_board_num}, #{pete_kind_many},
+   		#{pete_date}, #{pete_price}, #{pete_date2})
+   </insert>
+   
+   <!-- 집에맡기기 예약 한거 확인 -->
+   <select id="pete_reser_list" resultType="peReser" parameterType="String">
+   		select * from pete_reservation where join_id = #{join_id}
+   </select>
+   
+   <!-- 펫 정보 보는 부분 -->   
+   <!-- 펫 정보 저장 -->
+   <insert id="pet_epil_write" parameterType="petepil">
+   		insert into pet_epilogue
+   		(pet_id, pet_info, pet_feces, pet_vaccin, pet_friendly,
+   		pet_disease, pet_bark)
+   		values
+   		(#{pet_id}, #{pet_info}, #{pet_feces}, #{pet_vaccin},
+   		#{pet_friendly}, #{pet_disease}, #{pet_bark}) 
+   </insert>
+   <!-- 펫 정보 리스트 -->
+   <select id="pet_epil_list" resultType="petepil" parameterType="String">
+   		select * from pet_epilogue where pet_id = #{pete_id}
+   </select>
+   
+   <!-- 펫시터 후기작성 -->
+   <insert id="pete_epil" parameterType="peteEpil">
+   		insert into pete_epil
+   		(pete_epil_id, join_epil_id, pete_epil_subject,
+   		pete_epil_content, pete_epil_star)
+   		values
+   		(#{pete_epil_id}, #{join_epil_id}, #{pete_epil_subject},
+   		#{pete_epil_content}, #{pete_epil_star})
+   </insert>
+   
+   <select id="pete_select" resultType="peteEpil">
+   		select * from pete_epil where pete_epil_id = #{pete_id}
+   </select>
+  <!--  <select id="pbSelect" resultType="petebean" parameterType="String">
+   		select * from pete_entrust where pete_id = #{pete_id}
+   </select> -->
+   
+   <!-- 펫시터 예약 뽑기 -->
+    <select id="pete_reser_list2" resultType="peReser" parameterType="String">
+   		select * from pete_reservation where pete_id = #{pete_id}
+   </select>
+   <!-- 예약하기 목록값(달력때문에 뽑음) -->
+   <!-- <select id="pete_date" resultType="peReser">
+   		select * from pete_reservation where pete_id = #{pete_id}
+   </select> -->
+   
+   <select id="check_id" parameterType="String" resultType="int">
+    	select count(*) from pete_reservation where join_id = #{join_id}
+    </select>
+    
+    <select id="pete_list_epil" parameterType="String" resultType="int">
+    	select pete_epil_star 
+		from pete_epil 
+		where pete_epil_id = #{pete_id}
+    </select>
+</mapper>

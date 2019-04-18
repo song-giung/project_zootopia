@@ -1,0 +1,121 @@
+/*데이트 피커 */
+.calendar-legend {
+	width:66%;
+	color: #929491;
+	font-size: 0.8em;
+	line-height: 0.8em;
+	font-weight: 300;
+	letter-spacing: -0.5px;
+	text-align: center;
+}
+.calendar-legend .circle {
+	width: 12px;
+	height: 12px;
+	margin: 0 3px -2px 0;
+}
+.calendar-legend .unavailables {
+	background-color: #edeaea;
+}
+.calendar-legend .availables {
+	background-color: #575656;
+}
+.circle {
+	display: inline-block;
+	border-radius: 50%;
+	color: #fff;
+	font-weight: 400;
+}
+.stay {
+	background-color: #62C15B;
+}
+
+/* 1박 예약 */
+.Highlighted a{
+   background-color : #62C15B !important;
+   background-image :none !important;
+   color: White !important;
+   font-weight:bold !important;
+   font-size: 16px;
+   border-radius:40%;
+}
+/* 예약가능 */
+.Highlight a{
+	background-color : #5A5A5A !important;
+	background-image :none !important;
+	color: White !important;
+	font-weight:bold !important;
+	font-size: 16px;
+	border-radius:40%;
+}
+/* 날짜 가운데 정렬 */
+.ui-datepicker td span, .ui-datepicker td a,
+.ui-datepicker2 td span, .ui-datepicker2 td a{
+	text-align : center !important;
+}
+.
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year,
+.ui-datepicker2 select.ui-datepicker2-month,
+.ui-datepicker2 select.ui-datepicker2-year {
+	width:50% !important;
+}
+.ui-datepicker-calendar{
+	/* width:40%; */
+}
+
+.col-xs-6{
+	width:50%;
+	height:55%;
+	margin-bottom: 20px;
+	margin-right: 10px;
+    padding: 15px;
+    border: 1px solid #cccccc;
+} 
+.col-xs-6 > ul, .col-xs-12 > ul {
+	padding:0px;
+}
+.col-xs-12{
+	width:40%;
+	height:55%;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #cccccc;
+}
+.col-xs-12 > ul {
+	padding:0.6%
+}
+ul {
+   list-style:none;
+   }
+a:link {
+	text-decoration: none; !important;
+}
+a {
+	color:#26A69A;
+}
+.reser ul{
+	border-top:1.5px solid #d6d5d5; 
+}
+ul.login {
+	border:none;
+}
+.dl-horizontal dt{
+	text-align: left;
+	padding: 0.5%;
+}
+.dl-horizontal dd{
+	padding: 0.5%;
+}
+.btn-default {
+	background-color:#26A69A;
+	color:white;
+}
+#pete_kind, #pete_kind_many {
+	border-radius:0.3em
+}
+.checkTime{
+	height:13%;
+}
+.row {
+	margin-left:8%;
+}

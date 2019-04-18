@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="QnA">
+	
+	<!-- QnA 리스트 전체  -->
+	<select id="getQlist" resultType="qna">
+		select*from QnA_Question order by q_no desc 
+	</select>
+	
+	<!-- QnA 리스트 등록 -->
+	<insert id="AddQuestion" parameterType="qna">
+		insert into QnA_Question 
+		values(q_seq.nextval, #{q_id}, #{q_subject}, #{q_content}, sysdate, #{q_category})
+	</insert>
+	
+	<!-- 마지막 QnA리스트 리턴 -->
+	<select id="getLastQ" parameterType="String" resultType="qna">
+		select*from (select*from QnA_Question where q_id = #{q_id} order by q_no desc) where rownum = 1 
+	</select>
+	
+	<!-- 답변 리스트 출력 -->
+	<select id="getAnswer" parameterType="int" resultType="qna">
+		select*from QnA_Answer where q_no=#{q_no} order by a_no
+	</select>
+	
+	<!-- 답변 끝 번호 구하기 -->
+	<select id="getMaxnum" parameterType="int" resultType="int">
+		select nvl(max(a_no), 0) + 1 from QnA_Answer where q_no = #{q_no}
+	</select>
+	
+	<!-- 답변 글 등록 -->
+	<insert id="AddAnswer" parameterType="qna">
+		insert into QnA_Answer values(#{q_no}, #{a_no}, #{a_id}, #{a_content}, sysdate)
+	</insert>
+	
+	<!-- 답변 마지막 글 출력 -->
+	<select id="getLastA" parameterType="Map" resultType="qna">
+		select*from QnA_Answer where q_no=#{q_no} and a_no=#{a_no}
+	</select>
+	
+	<!-- 답변 삭제 -->
+	<delete id="deleteAnswer" parameterType="Map">
+		delete QnA_Answer where q_no=#{q_no} 
+		<if test="a_no != null">
+		and a_no=#{a_no}
+		</if>
+	</delete>
+	
+	<!-- 질문 삭제 -->
+	<delete id="deleteQuestion" parameterType="int">
+		delete QnA_Question where q_no=#{q_no}
+	</delete>
+
+</mapper>

@@ -1,0 +1,48 @@
+INPUT, SELECT {
+	font-family: Dotum;
+	font-size: 9pt;;
+}
+
+.style1 {
+	color: #466D1B;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+body {
+	margin-top: 0px;
+	margin-left: 0px;
+	background: "#FFFFFF"
+}
+
+table {
+	width: 414px;
+	height: 100px;
+}
+
+.center30 {
+	text-align: center;
+	height: 30px;
+	background: #f5ffea;
+}
+
+.bg {
+	background: #f5ffea
+}
+
+.center {
+	text-align: center
+}
+
+.right {
+	text-align: right
+}
+
+.bar {
+	background: #508C0F
+}
+
+.image02 {
+	position: relative;
+	top: 4px
+}

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="board">
+ 	<!-- 일상 게시판 게시글 목록 가져오기 -->
+ 	<select id="read_board_pet" parameterType="java.util.Map" resultType="board">
+		 select * from
+		 (select rownum rnum, board_num, join_id, board_subject, board_content,check_image,
+		    	board_readcount, board_date, board_modify_date, board_type,
+		    	board_state, board_cate from
+		 (select * from pet_board  where board_type=#{board_type} 
+		 
+		 
+		 <if test='cate!="total" and cate!="none"'>
+		 	and board_cate = #{cate}
+		 </if>
+		 <if test='search_field == "board_subject" and search_name !="%none%" '>
+ 				and board_subject like #{search_name}
+ 		</if>
+ 		<if	test='search_field == "board_content" and search_name !="%none%" '>
+ 				and board_content like #{search_name}
+ 		</if>
+ 		<if test='search_field == "join_id" and search_name !="%none%" '>
+ 				and join_id like #{search_name}
+ 		</if>
+		 
+		 order by board_num desc))
+		 where <![CDATA[rnum >=((#{page}-1)*#{limit}+1) and rnum <=(#{page}*#{limit})]]>
+ 	</select>
+ 	<!-- 일상 게시판 게시글 총 개수 가져오기 -->
+ 	<select id="PettotalCount" parameterType="java.util.Map" resultType="int">
+ 		select count(*) from pet_board 
+ 		<where>
+ 			<if test="type!=null">
+ 				and board_type=#{type}
+ 			</if>
+ 			<if test='cate!="total" and cate!="none"'>
+ 				and board_cate=#{cate}
+ 			</if>	
+ 			<if test='search_field=="board_subject" and search_name!="%none%"'>
+ 				and board_subject like #{search_name}
+ 			</if>
+ 			<if	test='search_field=="board_content" and search_name!="%none%"'>
+ 				and board_content like #{search_name}
+ 			</if>
+ 			<if test='search_field=="join_id" and search_name!="%none%"'>
+ 				and join_id like #{search_name}
+ 			</if>
+ 		</where>
+ 	
+ 		
+ 	</select>
+ 	<!-- 일상 게시판 글쓰기 -->
+ 	<insert id="board_pet_write" parameterType="board">
+ 		<selectKey resultType="int" keyProperty="board_num" order="AFTER">
+ 			select max(board_num) from pet_board
+ 		</selectKey>
+ 		insert into pet_board(board_num,join_id,board_subject,board_content,check_image,
+ 							board_readcount,board_date,
+ 							board_type,board_state,board_cate) 
+ 				values(board_seq.nextval,#{join_id},#{board_subject},#{board_content},#{check_image},0,sysdate,#{board_type},0,#{board_cate}) 
+ 	</insert>
+ 	<!-- 게시글 내용 가져오기 -->
+ 	<select id="read_board_cont" parameterType="int" resultType="board">
+ 		select * from pet_board where board_num = #{board_num}
+ 	</select>
+ 	<!-- 즐겨찾기 여부 확인 -->
+ 	<select id="check_favorite" parameterType="java.util.Map" resultType="int">
+ 		select count(*) from board_favorite where board_num=#{board_num} and join_id=#{join_id}
+ 	</select>
+ 	<!-- 좋아요 여부 확인 -->
+ 	<select id="check_like" parameterType="java.util.Map" resultType="int">
+ 		select count(*) from up where board_num=#{board_num} and join_id=#{join_id}
+ 	</select>
+ 	
+ 	<!-- 방금 글쓴 번호 가져오기-->
+ 	<select id="find_latest_board_num" parameterType="String" resultType="int">
+ 		select max(board_num) from pet_board where join_id =#{join_id} 
+ 	</select>
+ 	<!-- 게시글 삭제하기 -->
+ 	<select id="delete_board" parameterType="int">
+ 		delete pet_board where board_num =#{board_num}
+ 	</select>
+ 	
+ 	<!-- 댓글 달기 -->
+ 	<insert id="write_reply" parameterType="boardreply">
+ 		insert into board_reply values( board_reply_seq.nextval, #{join_id}, #{b_reply_ref}, #{b_reply_content}, sysdate, 0)
+ 	</insert>
+ 	
+ 	<!-- 댓글 읽어오기 -->
+ 	<select id="read_reply" parameterType="java.util.Map" resultType="boardreply">
+ 		select rnum, b_reply_num, join_id, b_reply_ref, b_reply_content, b_reply_date, b_reply_state
+ 			from(select rownum rnum, b_reply_num, join_id, b_reply_ref, b_reply_content, b_reply_date, b_reply_state
+ 							from(select * from board_reply where b_reply_ref = #{b_reply_ref} order by b_reply_num desc))
+ 							where <![CDATA[rnum >=((#{reply_page}-1)*10+1) and rnum <=(#{reply_page}*10)]]>
+ 	
+ 	</select>
+ 	
+ 	<!-- 해당 글의 댓글 총 개수 가져오기 -->
+ 	<select id="getBoardReplyListCount" parameterType="int" resultType="int">
+ 		select count(*) from board_reply where b_reply_ref=#{b_reply_ref}
+ 	</select>
+ 	<!-- 해당 글 삭제하면 댓글 삭제하기 -->
+ 	<delete id="delete_reply" parameterType="int">
+ 		delete from board_reply where b_reply_ref=#{b_reply_ref}
+ 	</delete>
+ 	<!-- 리플 수정하기 -->
+ 	<update id="modify_reply" parameterType="boardreply">
+ 		update board_reply set b_reply_content = #{b_reply_content} where b_reply_num = #{b_reply_num}
+ 	</update>
+ 	<!-- 수정한 리플 1개만 가져오기 -->
+ 	<select id="read_reply_oneBean" parameterType="int" resultType="boardreply">
+ 		select * from board_reply where b_reply_num = #{b_reply_num}
+ 	</select>
+ 	<!-- 리플 1개만 삭제하기 -->
+	<delete id="delete_reply_one" parameterType="int">
+		delete from board_reply where b_reply_num = #{b_reply_num}
+	</delete>
+	<!-- 이미지 업로드 하기 -->
+	<insert id="image_upload" parameterType="image">
+		insert into board_image(image_num,join_id,board_num,board_original,board_DBfile) 
+		values(image_seq.nextval,#{join_id},#{board_num},#{board_original},#{board_DBfile})
+	</insert>
+	<!-- 이미지 파일 가져오기 -->
+	<select id="read_image" parameterType="int" resultType="image">
+		select * from board_image where board_num = #{board_num}
+	</select>
+	<!-- 이미지 파일 삭제하기 -->
+	<delete id="delete_image" parameterType="int">
+		delete from board_image where board_num = #{board_num}
+	</delete>
+	<!-- 조회수 증가 -->
+	<update id="update_readcount" parameterType="int">
+		update pet_board set board_readcount = board_readcount+1 where board_num = #{board_num}
+	</update>
+	<!-- 게시글 수정할때 이미지 개별 삭제 하기 -->
+	<delete id="delete_image_sep" parameterType="int">
+		delete from board_image where image_num = #{image_num }
+	</delete>
+	<!-- 게시글에 이미지가 몇개 있는지 -->
+	<select id="get_imageListCount" parameterType="int" resultType="int">
+		select count(*) from board_image where board_num =#{board_num}
+	</select>
+	<!-- 게시글 수정시 이미지 전부 삭제 했으면 변경해야 함 -->
+	<select id="change_check_image" parameterType="int">
+		update pet_board set check_image = 0 where board_num = #{board_num}
+	</select>
+	<!-- 게시글 업데이트 하기 -->
+	<update id="update_board" parameterType="board">
+		update pet_board set 
+			board_subject = #{board_subject} , board_content = #{board_content} , 
+			check_image = #{check_image} , board_modify_date = sysdate , board_cate = #{board_cate} where board_num =#{board_num}
+	</update>
+	<!-- 게시글 즐겨찾기 추가 -->
+	<insert id="add_favorite" parameterType="java.util.Map">
+		insert into board_favorite(board_favorite_num,join_id,board_num) values(
+			board_favorite_num_seq.nextval,#{join_id},#{board_num}
+		)
+	</insert>
+	<!-- 게시글 글져 찾기 해제 -->
+	<delete id="remove_favorite" parameterType="java.util.Map">
+		delete board_favorite where board_num = #{board_num} and join_id = #{join_id}
+	</delete>
+	<!-- 게시글 좋아요 하기 -->
+	<insert id="add_like" parameterType="java.util.Map">
+		insert into up(up_num, join_id, board_num) values(up_num_seq.nextval,#{join_id},#{board_num})
+	</insert>
+	<!-- 게시글 좋아요 해제 -->
+	<delete id="remove_like" parameterType="java.util.Map">
+		delete up where board_num=#{board_num} and join_id =#{join_id}
+	</delete>
+	<!-- 게시글에 좋아요 몇개인지 확인하기 -->
+	<select id="how_many_like" parameterType="int" resultType="int">
+		select count(*) from up where board_num = #{board_num}
+	</select>
+	
+	<!-- 게시글or 리플 신고 했는지 여부 확인하기 -->
+	<select id="check_report" parameterType="java.util.Map" resultType="int">
+		<if test="report_type =='board'">
+			select count(*) from report where join_id = #{join_id} and report_board_ref = #{report_board_ref}
+		</if>
+		<if test="report_type == 'reply'">
+			select count(*) from report where join_id = #{join_id} and report_reply_ref = #{report_reply_ref}
+		</if>
+	</select>
+	<!-- 신고하기 -->
+	<insert id="report" parameterType="report">
+		insert into report(
+			report_num,
+			report_board_ref,
+			report_reply_ref,
+			report_type,
+			report_reason,
+			report_state,
+			join_id,
+			report_date)
+			
+			values(
+			report_num_seq.nextval,
+			#{report_board_ref},#{report_reply_ref},#{report_type},#{report_reason},
+			#{report_state},#{join_id},sysdate
+			)
+	</insert>
+	
+	<!-- 해당 게시글 신고 몇개 있는지 확인 -->
+	<select id="count_report_board" parameterType="int" resultType="int">
+		select count(*) from report where report_board_ref = #{board_num}
+	</select>
+	<!-- 해당 리플 신고 몇개 있는지 확인 -->
+	<select id="count_report_reply" parameterType="int" resultType="int">
+		select count(*) from report where report_reply_ref = #{b_reply_num}
+	</select>
+	<!-- 해당 게시글 임시 블락 처리 -->
+	<update id="temporary_block_board" parameterType="int">
+		update pet_board set board_state = 1 where board_num = #{board_num}
+	</update>
+	<!-- 해당 리플 임시 블락 처리 -->
+	<update id="temporary_block_reply" parameterType="int">
+		update board_reply set b_reply_state = 1 where b_reply_num=#{b_reply_num}
+	</update>
+	
+	<!-- 즐겨찾기한 게시글 목로 각저오기 -->
+	<select id="get_favorite_board" parameterType="java.util.Map" resultType="board">
+		
+		select * from(
+		select rownum rnum,  board_num, join_id, board_subject, board_content, check_image, 
+			   board_readcount, board_date, board_modify_date, board_type, board_state,board_cate from(
+		(select pet_board.board_num, pet_board.join_id, board_subject, board_content, check_image, 
+			   board_readcount, board_date, board_modify_date, board_type, board_state,board_cate from pet_board,board_favorite where pet_board.board_num = board_favorite.board_num and board_favorite.join_id = #{join_id}
+			
+		<if test="fav_type!=null and fav_type!=0">
+ 				and board_type=#{fav_type}
+ 		</if>
+		 <if test='fav_cate!="total" and fav_cate!="none"'>
+		 	and board_cate = #{fav_cate}
+		 </if>
+		 <if test='fav_search_field == "board_subject" and fav_search_name !="%none%" '>
+ 				and board_subject like #{fav_search_name}
+ 		</if>
+ 		<if	test='fav_search_field == "board_content" and fav_search_name !="%none%" '>
+ 				and board_content like #{fav_search_name}
+ 		</if>
+ 		<if test='fav_search_field == "join_id" and fav_search_name !="%none%" '>
+ 				and pet_board.join_id like #{fav_search_name}
+ 		</if>
+		
+		order by board_num desc))) where <![CDATA[rnum>=((#{page}-1)*#{limit}+1) and rnum<=(#{page}*#{limit})]]>
+	</select>
+	<!-- 즐겨찾기한 게시글 총 갯수 가져오기 -->
+	<select id="get_favorite_boardCount" parameterType="java.util.Map" resultType="int">
+		select count(*) from pet_board,board_favorite where pet_board.board_num = board_favorite.board_num and board_favorite.join_id = #{join_id}
+		
+		
+ 			<if test="fav_type!=null and fav_type!=0">
+ 				and board_type=#{fav_type}
+ 			</if>
+ 			<if test='fav_cate!="total" and fav_cate!="none"'>
+ 				and board_cate=#{fav_cate}
+ 			</if>	
+ 			<if test='fav_search_field=="board_subject" and fav_search_name!="%none%"'>
+ 				and board_subject like #{fav_search_name}
+ 			</if>
+ 			<if	test='fav_search_field=="board_content" and fav_search_name!="%none%"'>
+ 				and board_content like #{fav_search_name}
+ 			</if>
+ 			<if test='fav_search_field=="join_id" and fav_search_name!="%none%"'>
+ 				and pet_board.join_id like #{fav_search_name}
+ 			</if>
+ 		
+	</select>
+	<!-- 원본글 삭제시 즐겨찾기 삭제하기 -->
+	<delete id="delete_fav" parameterType="int">
+		delete board_favorite where board_num = #{board_num}
+	</delete>
+	<!-- 경고글 총 갯수 가져오기 -->
+	<select id="board_warn_listCount" resultType="int">
+		select count(*) from pet_board where board_state = 1
+	</select>
+	
+	<!--경고글 리스트 가져오기 -->
+ 	<select id="get_Warn_Board" parameterType="java.util.Map" resultType="board">
+ 		select * from
+ 		 (select rownum rnum, board_num, join_id, board_subject, board_content,check_image,
+		    	board_readcount, board_date, board_modify_date, board_type,
+		    	board_state, board_cate from
+		 (select * from pet_board where board_state=1 order by board_num desc))
+		 where <![CDATA[rnum >=((#{page}-1)*#{limit}+1) and rnum <=(#{page}*#{limit})]]>
+ 	</select>
+ 	<!-- 해당글 경고 몇번 받았는지 -->
+ 	<select id="getBoardWarnCount" parameterType="int" resultType="int">
+ 		select count(*) from report where report_board_ref = #{board_num}
+ 	</select>
+ 	<!-- 게시글 지우면 해당 경고 테이블도 지우기 -->
+ 	<delete id="delete_report" parameterType="int">
+ 		delete report where report_board_ref=#{report_board_ref}
+ 	</delete>
+ 	<!-- 게시글 삭제하면 해당 추천도 삭제하기 -->
+ 	<delete id="delete_up" parameterType="int">
+ 			delete up where board_num = #{board_num}
+ 	</delete>
+ 	<!-- 신고글 경고 풀기 -->
+ 	<update id="change_board_state" parameterType="int">
+ 		update pet_board set board_state=0 where board_num = #{board_num}
+ 	</update>
+ 	 </mapper>

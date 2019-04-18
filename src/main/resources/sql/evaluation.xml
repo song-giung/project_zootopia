@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Eval">
+		
+	<!-- 평점입력 -->
+	<insert id="starScore" parameterType="eval">
+		insert into Place_Evaluation 
+		values(evaluation_seq.nextval, #{id}, #{mark_no}, #{mark_type}, #{mark_name}, #{place_comment}, #{star_score}, sysdate)
+	</insert>
+	
+	<!-- 평점 코멘트 리스트 출력 -->
+	<select id="getscoreComment" parameterType="int" resultType="eval">
+		select*from Place_Evaluation where mark_no = #{mark_no} order by evaluation_date desc
+	</select>
+	
+	<!-- 작성자가 입력한 마지막 평점 코멘트 출력 -->
+	<select id="getLastComment" parameterType="String" resultType="eval">
+		select*from (select*from place_evaluation where id = #{id} order by evaluation_no desc) where rownum=1
+	</select>
+	
+	<!-- 평점 평균 구하기 -->
+	<select id="getAvgScore" parameterType="int" resultType="double">
+		select nvl(round(avg(star_score),1),0) from place_evaluation where mark_no=#{mark_no}
+	</select>
+	
+	<!-- 마커삭제를 위한 평점 삭제 -->
+	<delete id="deleteEval" parameterType="int">
+		delete from Place_Evaluation where mark_no=#{mark_no}
+	</delete>
+	
+	<!-- 평점 삭제 -->
+	<delete id="starDelete" parameterType="int">
+		delete from Place_Evaluation where evaluation_no=#{evaluatoin_no}
+	</delete>
+	
+</mapper>

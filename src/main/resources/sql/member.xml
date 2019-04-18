@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Final">
+	<select id="select" parameterType="String" resultType="member">
+		select * from join_member where join_id = #{join_id} 
+	</select>
+    <select id="check_id" parameterType="String" resultType="int">
+    	select count(*) from join_member where join_id = #{join_id}
+    </select>
+    
+    <select id="find_zipcode" parameterType="String"></select>
+    
+    <!-- 우편번호 검색 -->
+    <select id="zipcodelist" parameterType="String" resultType="Zipcode">
+    	select * from zipcode5
+    	where doro like #{dong}
+    </select>
+    
+    <!-- 회원저장 -->
+    <insert id="join" parameterType="member">
+    	insert into join_member(
+    		join_code, 
+    		join_id, join_password, join_password2, join_name,
+    		join_birthday, join_tel, join_email, 
+    		join_zipcode, join_address1, join_address2, 
+    		join_type, join_pet_picture, join_pet_original,
+    		join_pet_name, join_pet_type,
+    		join_sitter_license,
+    		join_hospital_location, join_hospital_name, join_hospital_tel
+    	) values (
+    		joincode_seq.nextval,
+    		#{join_id}, #{join_password}, #{join_password2}, #{join_name},
+    		#{join_birthday}, #{join_tel}, #{join_email}, 
+    		#{join_zipcode}, #{join_address1}, #{join_address2},
+    		#{join_type}, #{join_pet_picture}, #{join_pet_original},
+    		#{join_pet_name}, #{join_pet_type},
+    		#{join_sitter_license},
+    		#{join_hospital_location}, #{join_hospital_name}, #{join_hospital_tel}
+    	)
+    </insert>
+    
+    <update id="update" parameterType="member">
+    	update join_member
+    	set 
+    		join_zipcode=#{join_zipcode}, join_address1=#{join_address1}, join_address2=#{join_address2},
+    		join_tel=#{join_tel}, join_email=#{join_email},
+    		join_type=#{join_type}, join_pet_picture=#{join_pet_picture}, join_pet_original=#{join_pet_original},
+    		join_pet_name=#{join_pet_name}, join_pet_type=#{join_pet_type},
+    		join_sitter_license=#{join_sitter_license},
+    		join_hospital_location=#{join_hospital_location}, join_hospital_name=#{join_hospital_name}, join_hospital_tel=#{join_hospital_tel}
+    	where join_id=#{join_id}
+    </update>
+    
+    <select id="pwd_find" resultType="member" parameterType="java.util.Map">
+    	select join_password from join_member
+    	where join_id=#{id} and join_name=#{name}
+    </select> 
+    
+    <select id="updatepwd" parameterType="member">
+    	update join_member
+    	set join_password=#{join_password}, join_password2=#{join_password2}
+    	where join_id=#{join_id}
+    </select>
+    
+    <select id="check_join_type" parameterType="String" resultType="String">
+    	select join_type from join_member where join_id = #{join_id}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Marker">
+	
+	<!-- 마커 리스트 전체  -->
+	<select id="getlist" resultType="marker" parameterType="int">
+		select*from Map_Marker 
+	</select>
+	
+	<!-- 마커 리스트 선택 -->
+	<select id="getselectlist" parameterType="int" resultType="marker">
+		select*from Map_Marker where mark_type = #{mark_type}
+	</select>
+	
+	<!-- 마커 정보 출력 -->
+	<select id="getInfo" parameterType="int" resultType="marker">
+		select*from Map_Marker where mark_no = #{mark_no}
+	</select>
+	
+	<!-- 마크 끝번호 구하기 -->
+	<select id="getMaxnum" resultType="int">
+		select nvl(max(mark_no), 0) + 1 from Map_Marker
+	</select>
+	
+	<!-- 마커 입력 -->
+	<insert id="addMarker" parameterType="marker">
+		insert into Map_Marker 
+		values(#{mark_no}, #{mark_type}, #{mark_name}, #{mark_lat}, #{mark_lng}, #{mark_address}, #{mark_comment}, #{mark_tel})
+	</insert>
+	
+	<!-- 마커 수정 -->
+	<update id="editMarker" parameterType="marker">
+		update Map_Marker set mark_name=#{mark_name}, mark_type=#{mark_type},
+		mark_lat=#{mark_lat}, mark_lng=#{mark_lng}, 
+		mark_address=#{mark_address}, mark_comment=#{mark_comment},
+		mark_tel=#{mark_tel} where mark_no=#{mark_no}
+	</update>
+	
+	<!-- 마커 삭제 -->
+	<delete id="deleteMarker" parameterType="int">
+		delete from Map_Marker where mark_no=#{mark_no}
+	</delete>
+	
+	
+
+</mapper>
