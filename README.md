@@ -11,8 +11,7 @@
   - Spring FrameWork(5.0.6)
   - Tomcat 8.5
 * 담당 부분 : 게시판
-* 작성 소스 코드 위치
- 
+* 작성 소스 코드 위치 
  - java :
     + com.naver.zootopia.action.BoardAction.java
     + com.naver.zootopia.DAO.PetBoardDAOImpl.java
@@ -23,10 +22,8 @@
     + com.naver.zootopia.model.FavoriteBean.java
     + com.naver.zootopia.model.ImageBean.java
     + com.naver.zootopia.model.ReportBean.java
-    + com.naver.zootopia.model.UpBean.java
-  
-  - sql : /src/main/resources/sql/board.xml
-  
+    + com.naver.zootopia.model.UpBean.java 
+  - sql : /src/main/resources/sql/board.xml  
   - jsp : src/main/webapp/jsp/board/하위 파일
   
 ***
