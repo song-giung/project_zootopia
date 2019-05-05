@@ -10,7 +10,9 @@
   - JavaScript / jQuery
   - Spring FrameWork(5.0.6)
   - Tomcat 8.5
-* 담당 부분 : 게시판
+* 담당 부분 : 
+  - 
+  - 게시판
 * 작성 소스 코드 위치 
   - java :
     - com.naver.zootopia.action.BoardAction.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/action/BoardAction.java)
