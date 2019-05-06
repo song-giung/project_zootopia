@@ -30,7 +30,6 @@
   
 ***
 ### 프로젝트 리뷰
-![프로젝트리뷰01](/project_introduction/review01.png)
 ![프로젝트리뷰02](/project_introduction/review02.png)
 ***
 ### 프로젝트 계획서
