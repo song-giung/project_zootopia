@@ -10,7 +10,7 @@
   - JavaScript / jQuery
   - Spring FrameWork(5.0.6)
   - Tomcat 8.5
-* 담당 부분 : 
+* **담당 부분** : 
   - 팀장
   - 게시판
 * 작성 소스 코드 위치 
