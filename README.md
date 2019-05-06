@@ -15,18 +15,18 @@
   - 게시판
 * 작성 소스 코드 위치 
   - java :
-    - com.naver.zootopia.action.BoardAction.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/action/BoardAction.java)
-    - com.naver.zootopia.DAO.PetBoardDAOImpl.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/DAO/PetBoardDAOImpl.java)
-    - com.naver.zootopia.DAO.PetBoardService.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/DAO/PetBoardService.java)
-    - com.naver.zootopia.DAO.PetBoardServiceImpl.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/DAO/PetBoardServiceImpl.java)
-    - com.naver.zootopia.model.BoardBean.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/BoardBean.java)
-    - com.naver.zootopia.model.BoardReplyBean.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/BoardReplyBean.java)
-    - com.naver.zootopia.model.FavoriteBean.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/FavoriteBean.java)
-    - com.naver.zootopia.model.ImageBean.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/ImageBean.java)
-    - com.naver.zootopia.model.ReportBean.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/ReportBean.java)
-    - com.naver.zootopia.model.UpBean.java(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/UpBean.java) 
-  - sql : /src/main/resources/sql/board.xml(https://github.com/rldnddl87/project_zootopia/blob/master/src/main/resources/sql/board.xml)  
-  - jsp : src/main/webapp/jsp/board/하위 파일(https://github.com/rldnddl87/project_zootopia/tree/master/src/main/webapp/jsp/board)
+    - [com.naver.zootopia.action.BoardAction.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/action/BoardAction.java)
+    - [com.naver.zootopia.DAO.PetBoardDAOImpl.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/DAO/PetBoardDAOImpl.java)
+    - [com.naver.zootopia.DAO.PetBoardService.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/DAO/PetBoardService.java)
+    - [com.naver.zootopia.DAO.PetBoardServiceImpl.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/DAO/PetBoardServiceImpl.java)
+    - [com.naver.zootopia.model.BoardBean.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/BoardBean.java)
+    - [com.naver.zootopia.model.BoardReplyBean.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/BoardReplyBean.java)
+    - [com.naver.zootopia.model.FavoriteBean.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/FavoriteBean.java)
+    - [com.naver.zootopia.model.ImageBean.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/ImageBean.java)
+    - [com.naver.zootopia.model.ReportBean.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/ReportBean.java)
+    - [com.naver.zootopia.model.UpBean.java](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/java/com/naver/zootopia/model/UpBean.java) 
+  - sql : /src/main/resources/sql/[board.xml](https://github.com/rldnddl87/project_zootopia/blob/master/src/main/resources/sql/board.xml)  
+  - jsp : src/main/webapp/jsp/board/[하위 파일](https://github.com/rldnddl87/project_zootopia/tree/master/src/main/webapp/jsp/board)
   
 ***
 ### 프로젝트 리뷰
